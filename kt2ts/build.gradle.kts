@@ -4,9 +4,16 @@ group = "kt2ts"
 
 version = "0.0.1"
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    maven("https://mlorber.net/maven_repo")
+}
 
-dependencies { testImplementation(kotlin("test")) }
+dependencies {
+    implementation("io.github.kt2ts:kt2ts-annotation:1.0.0")
+
+    testImplementation(kotlin("test"))
+}
 
 tasks.test { useJUnitPlatform() }
 
