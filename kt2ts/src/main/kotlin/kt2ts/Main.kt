@@ -1,5 +1,3 @@
 package kt2ts
 
-fun main() {
-
-}
+fun main() {}
