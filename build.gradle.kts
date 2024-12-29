@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     implementation("io.github.kt2ts:kt2ts-annotation:1.0.0")
+    implementation("org.yaml:snakeyaml:2.3")
 
     testImplementation(kotlin("test"))
 }
