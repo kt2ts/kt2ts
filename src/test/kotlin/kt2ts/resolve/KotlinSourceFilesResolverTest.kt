@@ -21,6 +21,7 @@ class KotlinSourceFilesResolverTest {
                     .path
             )
         val annotation = ClassQualifiedName.of(GenerateTypescript::class)
+        // TODO name parse
         val resolution = KotlinSourceFilesResolver.resolveDirectory(dir, annotation)
         // TODO use kotest
         assertEquals(3, resolution.initialSelection.size)
