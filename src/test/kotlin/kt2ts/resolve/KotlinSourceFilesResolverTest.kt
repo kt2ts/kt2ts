@@ -23,17 +23,18 @@ class KotlinSourceFilesResolverTest {
         val annotation = ClassQualifiedName.of(GenerateTypescript::class)
         val resolution = KotlinSourceFilesResolver.resolveDirectory(dir, annotation)
         // TODO use kotest
-        assertEquals(3, resolution.initialSelection.size)
-        resolution.initialSelection
+        assertEquals(3, resolution.annotatedFiles.size)
+        resolution.annotatedFiles
             .sortedBy { it.path.name }
             .let {
                 assertEquals("Classes.kt", it[0].path.name)
                 assertEquals("Sealed.kt", it[1].path.name)
                 assertEquals("SubPackageClasses.kt", it[2].path.name)
             }
-        assertEquals(2, resolution.otherFiles.size)
+        assertEquals(4, resolution.otherFiles.size)
+        assertEquals(2, resolution.otherFiles.map { it.packageName }.distinct().size)
         resolution.otherFiles
-            .getValue(PackageName("io.github.kt2tssample"))
+            .filter { it.packageName == PackageName("io.github.kt2tssample") }
             .sortedBy { it.path.name }
             .let {
                 assertEquals(3, it.size)
@@ -41,9 +42,11 @@ class KotlinSourceFilesResolverTest {
                 assertEquals("NoGeneration.kt", it[1].path.name)
                 assertEquals("SampleId.kt", it[2].path.name)
             }
-        resolution.otherFiles.getValue(PackageName("io.github.kt2tssample.subpackage")).let {
-            assertEquals(1, it.size)
-            assertEquals("NoGenerationInSubPackage.kt", it[0].path.name)
-        }
+        resolution.otherFiles
+            .filter { it.packageName == PackageName("io.github.kt2tssample.subpackage") }
+            .let {
+                assertEquals(1, it.size)
+                assertEquals("NoGenerationInSubPackage.kt", it[0].path.name)
+            }
     }
 }
