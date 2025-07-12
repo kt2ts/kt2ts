@@ -1,21 +1,13 @@
-plugins {
-    kotlin("jvm") version "2.2.0"
-}
+plugins { kotlin("jvm") version "2.2.0" }
 
 group = "kt2ts"
+
 version = "1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+dependencies { testImplementation(kotlin("test")) }
 
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(23)
-}
+tasks.test { useJUnitPlatform() }
+
+kotlin { jvmToolchain(23) }
