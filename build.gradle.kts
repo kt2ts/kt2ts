@@ -7,6 +7,9 @@ version = "1.0-SNAPSHOT"
 repositories { mavenCentral() }
 
 dependencies {
+    implementation("io.github.kt2ts:kt2ts-annotation:1.0.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+
     testImplementation(kotlin("test"))
     testImplementation("org.assertj:assertj-core:3.27.3")
 }
