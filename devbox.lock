@@ -1,0 +1,45 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2025-07-08T04:39:49Z",
+      "resolved": "github:NixOS/nixpkgs/9b008d60392981ad674e04016d25619281550a9d?lastModified=1751949589&narHash=sha256-mgFxAPLWw0Kq%2BC8P3dRrZrOYEQXOtKuYVlo9xvPntt8%3D"
+    },
+    "jdk@23.0.2+7": {
+      "last_modified": "2025-06-20T02:24:11Z",
+      "resolved": "github:NixOS/nixpkgs/076e8c6678d8c54204abcb4b1b14c366835a58bb#jdk23",
+      "source": "devbox-search",
+      "version": "23.0.2+7",
+      "systems": {
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/scfixrxmwf7ccvv2kf5j89dcm6v413w5-openjdk-23.0.2+7",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/4mx7inssrnmqy857hchmn6vm56mns34i-openjdk-23.0.2+7-debug"
+            }
+          ],
+          "store_path": "/nix/store/scfixrxmwf7ccvv2kf5j89dcm6v413w5-openjdk-23.0.2+7"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/jpcpkwl073djsg15v11pad8jhcv02jk4-openjdk-23.0.2+7",
+              "default": true
+            },
+            {
+              "name": "debug",
+              "path": "/nix/store/wmxycpjwj4y8p3miv4frvb1gg2gd53ls-openjdk-23.0.2+7-debug"
+            }
+          ],
+          "store_path": "/nix/store/jpcpkwl073djsg15v11pad8jhcv02jk4-openjdk-23.0.2+7"
+        }
+      }
+    }
+  }
+}
