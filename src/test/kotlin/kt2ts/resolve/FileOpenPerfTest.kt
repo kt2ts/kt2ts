@@ -14,8 +14,12 @@ class FileOpenPerfTest {
     @Test
     fun `test perfs`() {
         val gitDir = Path(System.getenv("HOME")).resolve("git")
+        val onlyKotlinFiles = false
+        println(
+            "${KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles).count()} files"
+        )
         time("No coroutine") {
-            KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
+            KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles).forEach { file ->
                 file.readBytes()
             }
         }
@@ -23,9 +27,10 @@ class FileOpenPerfTest {
             runBlocking {
                 withContext(Dispatchers.IO) {
                     val readSemaphore = Semaphore(permits = 1)
-                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
-                        launch { readSemaphore.withPermit { file.readBytes() } }
-                    }
+                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles)
+                        .forEach { file ->
+                            launch { readSemaphore.withPermit { file.readBytes() } }
+                        }
                 }
             }
         }
@@ -33,9 +38,10 @@ class FileOpenPerfTest {
             runBlocking {
                 withContext(Dispatchers.IO) {
                     val readSemaphore = Semaphore(permits = 4)
-                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
-                        launch { readSemaphore.withPermit { file.readBytes() } }
-                    }
+                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles)
+                        .forEach { file ->
+                            launch { readSemaphore.withPermit { file.readBytes() } }
+                        }
                 }
             }
         }
@@ -43,9 +49,10 @@ class FileOpenPerfTest {
             runBlocking {
                 withContext(Dispatchers.IO) {
                     val readSemaphore = Semaphore(permits = 10)
-                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
-                        launch { readSemaphore.withPermit { file.readBytes() } }
-                    }
+                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles)
+                        .forEach { file ->
+                            launch { readSemaphore.withPermit { file.readBytes() } }
+                        }
                 }
             }
         }
@@ -53,14 +60,26 @@ class FileOpenPerfTest {
             runBlocking {
                 withContext(Dispatchers.IO) {
                     val readSemaphore = Semaphore(permits = 20)
-                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
-                        launch { readSemaphore.withPermit { file.readBytes() } }
-                    }
+                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles)
+                        .forEach { file ->
+                            launch { readSemaphore.withPermit { file.readBytes() } }
+                        }
+                }
+            }
+        }
+        time("100 coroutines") {
+            runBlocking {
+                withContext(Dispatchers.IO) {
+                    val readSemaphore = Semaphore(permits = 100)
+                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles)
+                        .forEach { file ->
+                            launch { readSemaphore.withPermit { file.readBytes() } }
+                        }
                 }
             }
         }
         time("No coroutine") {
-            KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
+            KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir, onlyKotlinFiles).forEach { file ->
                 file.readBytes()
             }
         }

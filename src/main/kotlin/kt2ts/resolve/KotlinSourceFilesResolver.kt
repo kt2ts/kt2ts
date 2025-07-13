@@ -10,13 +10,25 @@ object KotlinSourceFilesResolver {
 
     // TODO [conf] can change from config
     // can use regex ?
-    val DefaultIgnoreList = listOf("node_modules", ".git", ".gradle")
+    val DefaultIgnoreList =
+        listOf(
+            "node_modules",
+            ".git",
+            ".gradle",
+            ".devbox",
+            ".venv",
+            ".idea",
+            ".yarn",
+            ".terraform",
+        )
+    val ExtensionIgnoreList = listOf("jar", "war", "original", "RData", "sql")
 
-    fun sequenceKotlinFiles(dir: Path) =
+    fun sequenceKotlinFiles(dir: Path, onlyKotlinFiles: Boolean) =
         dir.toFile()
             .walk()
             .onEnter { filterDir(it, dir) }
-            .filter { it.extension == KotlinExtension }
+            .filter { !onlyKotlinFiles || it.extension == KotlinExtension }
+            .filter { it.extension !in ExtensionIgnoreList }
             .filter { !it.isDirectory }
 
     fun filterDir(dir: File, root: Path): Boolean {
