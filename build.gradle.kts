@@ -4,9 +4,14 @@ group = "kt2ts"
 
 version = "1.0-SNAPSHOT"
 
-repositories { mavenCentral() }
+repositories {
+    mavenCentral()
+    maven("https://mlorber.net/maven_repo")
+}
 
 dependencies {
+    implementation("io.github.kt2ts:kt2ts-annotation:1.0.0")
+
     testImplementation(kotlin("test"))
     testImplementation("org.assertj:assertj-core:3.27.3")
 }
