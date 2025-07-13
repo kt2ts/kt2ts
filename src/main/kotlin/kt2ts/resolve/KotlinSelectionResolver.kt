@@ -13,28 +13,22 @@ object KotlinSelectionResolver {
     val PackageDeclaration = "package "
     val ImportDeclaration = "import "
 
-    fun resolveDirectory(dir: Path, searchAnnotation: ClassQualifiedName): SourceFiles {
-        // first is for initial selection, second is for the rest
-        val files: Pair<List<KotlinFile?>, List<KotlinFile?>> =
-            sequenceKotlinFiles(dir)
-                .mapNotNull {
-                    val packageAndImports = readPackageAndImports(it)
-                    val packageName =
-                        packageAndImports.firstOrNull()?.let { PackageName(it) }
-                            // TODO Kotlin with no package is ok ?
-                            ?: return@mapNotNull null
-                    val ktFile = KotlinFile(it.toPath(), packageName)
-                    // return Pair<KotlinFile, KotlinFile>, first is for initial selection, second
-                    // is for the rest
-                    if (searchAnnotation.name in packageAndImports) ktFile to null
-                    else null to ktFile
-                }
-                .unzip()
-        return SourceFiles(
-            files.first.filterNotNull(),
-            files.second.filterNotNull().groupBy { it.packageName },
-        )
-    }
+    fun resolveDirectory(dir: Path, searchAnnotation: ClassQualifiedName): SourceFiles =
+        sequenceKotlinFiles(dir)
+            .mapNotNull {
+                val packageAndImports = readPackageAndImports(it)
+                val packageName =
+                    packageAndImports.firstOrNull()?.let { PackageName(it) }
+                    // TODO Kotlin with no package is ok ?
+                        ?: return@mapNotNull null
+                val ktFile = KotlinFile(it.toPath(), packageName)
+                // return Pair<KotlinFile, KotlinFile>, first is for initial selection, second
+                // is for the rest
+                if (searchAnnotation.name in packageAndImports) ktFile to null else null to ktFile
+            }
+            // first is for initial selection, second is for the rest
+            .unzip()
+            .let { SourceFiles(it.first.filterNotNull(), it.second.filterNotNull()) }
 
     // reads just needed lines
     fun readPackageAndImports(file: File): List<String> =
