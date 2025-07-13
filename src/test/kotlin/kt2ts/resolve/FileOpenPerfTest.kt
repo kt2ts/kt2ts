@@ -14,15 +14,20 @@ class FileOpenPerfTest {
     @Test
     fun `test perfs`() {
         val gitDir = Path(System.getenv("HOME")).resolve("git")
-        val start = System.currentTimeMillis()
-        runBlocking {
-            val readSemaphore = Semaphore(permits = 4)
-            withContext(Dispatchers.IO) {
-                KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
-                    launch { readSemaphore.withPermit { file.readBytes() } }
+        time("coroutines") {
+            runBlocking {
+                withContext(Dispatchers.IO) {
+                    val readSemaphore = Semaphore(permits = 4)
+                    KotlinSourceFilesResolver.sequenceKotlinFiles(gitDir).forEach { file ->
+                        launch { readSemaphore.withPermit { file.readBytes() } }
+                    }
                 }
             }
         }
-        println("finished in ${System.currentTimeMillis() - start} ms")
+    }
+
+    fun time(m: String, run: () -> Any) {
+        val start = System.currentTimeMillis()
+        println("${m.padEnd(42)} ${(System.currentTimeMillis() - start).toString().padStart(7)}ms")
     }
 }
