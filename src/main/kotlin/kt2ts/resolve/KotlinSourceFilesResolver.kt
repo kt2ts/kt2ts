@@ -4,6 +4,7 @@ import java.io.File
 import java.nio.file.Path
 import kotlin.io.path.pathString
 
+// TODO more generic, et ranger avec mon shellrunner ?
 object KotlinSourceFilesResolver {
 
     val KotlinExtension = "kt"
