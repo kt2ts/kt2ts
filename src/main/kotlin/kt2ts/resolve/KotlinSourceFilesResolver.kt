@@ -30,7 +30,7 @@ object KotlinSourceFilesResolver {
     }
 
     // TODO [conf] can disable build directory behaviour
-    // vraiment pas ouf
+    // TODO vraiment pas ouf
     fun isBuildDir(relativePath: String): Boolean {
         assert(relativePath.isEmpty() || relativePath.first() == '/')
         return if (relativePath.endsWith("/build")) {
