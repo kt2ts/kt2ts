@@ -10,6 +10,7 @@ object KotlinSourceFilesResolver {
 
     // TODO [conf] can change from config
     // can use regex ?
+    // TODO set
     val DefaultIgnoreList = listOf("node_modules", ".git", ".gradle")
 
     fun sequenceKotlinFiles(dir: Path) =
