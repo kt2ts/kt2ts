@@ -18,6 +18,8 @@ object KotlinSourceFilesResolver {
         dir.toFile()
             .walk()
             .onEnter { filterDir(it, dir) }
+            // dans lite i did .filter { extensionsWhileList != null && it.extension in extensionsWhileList }
+            // avec extensionsWhileList en param : extensionsWhileList: Set<String>? = null
             .filter { it.extension == KotlinExtension }
             .filter { !it.isDirectory }
 
