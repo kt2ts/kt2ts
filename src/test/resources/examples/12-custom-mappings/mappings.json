@@ -1,0 +1,5 @@
+{
+  "java.time.LocalDate": "string",
+  "java.time.Instant": "string",
+  "java.util.UUID": "string"
+}
